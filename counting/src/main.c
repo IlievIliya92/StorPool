@@ -1,6 +1,7 @@
 /******************************** INCLUDE FILES *******************************/
 #include <argp.h>
 #include <stdint.h>
+#include <stdio.h>
 
 /******************************** LOCAL DEFINES *******************************/
 #define ARGS_DEFAULT {NULL}
