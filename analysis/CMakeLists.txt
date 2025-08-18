@@ -4,6 +4,7 @@ project(Analysis C)
 set(ARCHIVE_URL "https://quiz.storpool.com/bigf.json.bz2")
 set(INPUT_DATA "${CMAKE_BINARY_DIR}/bigf.json.bz2")
 set(INPUT_DATA_DEST_DIR "${CMAKE_BINARY_DIR}/")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
 
 include(FetchContent)
 FetchContent_Declare(
