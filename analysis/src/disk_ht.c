@@ -26,10 +26,9 @@ static unsigned int hash(const char *model, int table_len) {
 
     length = strnlen(model, DISK_MODEL_LEN_MAX);
     for (i = 0; i < length; i++)
-    {
-        hash_value += model[i];
-        hash_value = hash_value % table_len;
-    }
+        hash_value = hash_value + model[i];
+
+    hash_value = hash_value % table_len;
 
     return hash_value;
 }
@@ -83,7 +82,7 @@ void disk_ht_destroy(disk_ht_t **self_p)
     }
 }
 
-void disk_ht_print(disk_ht_t *self) {
+void disk_ht_print_table(disk_ht_t *self) {
     int i = 0;
 
     for (i = 0; i < self->table_len; i++) {
@@ -103,9 +102,25 @@ void disk_ht_print(disk_ht_t *self) {
     }
 }
 
+void disk_ht_print_data(disk_ht_t *self) {
+    int i = 0;
+
+    fprintf(stdout, "Info: Disk data\n");
+    for (i = 0; i < self->table_len; i++) {
+        disk_data_t *disk_current = self->disk_data[i];
+        if (disk_current != NULL) {
+            while(disk_current != NULL) {
+                fprintf(stdout, "\t %s: %d\n", disk_current->model,
+                    disk_current->model_cnt);
+                disk_current = disk_current->next;
+            }
+        }
+    }
+}
+
 int disk_ht_insert(disk_ht_t *self, const char *model) {
     if (model == NULL) {
-        // print error
+        fprintf(stderr, "Error: Invalid model\n");
         return -1;
     }
     int idx = 0;
@@ -124,51 +139,24 @@ int disk_ht_insert(disk_ht_t *self, const char *model) {
 
 int disk_ht_check(disk_ht_t *self, const char *model) {
     if (model == NULL) {
-        // print error
+        fprintf(stderr, "Error: Invalid model\n");
         return -1;
     }
     int idx = 0;
 
     idx = hash(model, self->table_len);
     disk_data_t *disk_current = self->disk_data[idx];
-    if (disk_current != NULL && strncmp(disk_current->model,
-        model, DISK_MODEL_LEN_MAX) == 0) {
-        /**
-         * If we are checking for a model that is already present in our hash table
-         * increment the model_cnt
-         */
-        self->disk_data[idx]->model_cnt++;
+    while (disk_current != NULL) {
+        if (strncmp(disk_current->model, model, DISK_MODEL_LEN_MAX) == 0) {
+            /**
+             * If we are checking for a model that is already present in our hash table
+             * increment the model_cnt
+             */
+            disk_current->model_cnt++;
+            return 0;
+        }
         disk_current = disk_current->next;
-        return 0;
     }
 
     return -1;
 }
-
-/*
-#define TABLE_LEN 10
-#define DISK_NAMES 7
-int main(int argc, char const *argv[])
-{
-    const char *disk_names[DISK_NAMES] = {
-        "RDV2", "RDV2", "SSDF1", "123456789", "HGST2048T", "HGST2048T", "HGST2048T"
-    };
-
-    int ret = 0;
-    int i = 0;
-
-    disk_ht_t *disk_ht = disk_ht_new(TABLE_LEN);
-
-    for (i = 0; i < DISK_NAMES; i++) {
-        ret = disk_ht_check(disk_ht, disk_names[i]);
-        if (ret)
-            disk_ht_insert(disk_ht, disk_names[i]);
-    }
-
-    disk_ht_print(disk_ht);
-
-    disk_ht_destroy(&disk_ht);
-
-    return 0;
-}
-*/
