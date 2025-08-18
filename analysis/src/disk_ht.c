@@ -10,7 +10,7 @@ typedef struct _disk_data_t {
     char model[DISK_MODEL_LEN_MAX];
     int model_cnt;
 
-    // struct _disk_data_t *next; /* external chaining for ht collisions */
+    struct _disk_data_t *next; /* external chaining for ht collisions */
 } disk_data_t;
 
 struct _disk_ht_t {
@@ -67,8 +67,14 @@ void disk_ht_destroy(disk_ht_t **self_p)
         disk_ht_t *self = *self_p;
         /* Free class properties */
         int i = 0;
-        for (i = 0; i < self->table_len; i++) {
-            free(self->disk_data[i]);
+        for (i = 0; i < self->table_len; i++)
+        {
+            while(self->disk_data[i] != NULL)
+            {
+                disk_data_t *disk_tmp = self->disk_data[i];
+                self->disk_data[i] = self->disk_data[i]->next;
+                free(disk_tmp);
+            }
         }
         free(self->disk_data);
         /* Free object itself */
@@ -81,10 +87,17 @@ void disk_ht_print(disk_ht_t *self) {
     int i = 0;
 
     for (i = 0; i < self->table_len; i++) {
-        if (self->disk_data[i] != NULL) {
-            fprintf(stdout, "%i\t %s: %d\n",i , self->disk_data[i]->model,
-                self->disk_data[i]->model_cnt);
-        } else {
+        disk_data_t *disk_current = self->disk_data[i];
+        if (disk_current != NULL) {
+            fprintf(stdout, "%i", i);
+            while(disk_current != NULL) {
+                fprintf(stdout, "\t %s: %d", disk_current->model,
+                    disk_current->model_cnt);
+                disk_current = disk_current->next;
+            }
+            fprintf(stdout, "\n");
+        }
+        else {
             fprintf(stdout, "%i\t ---\n", i);
         }
     }
@@ -102,10 +115,8 @@ int disk_ht_insert(disk_ht_t *self, const char *model) {
     disk_new->model_cnt = 1;
 
     idx = hash(model, self->table_len);
-    if (self->disk_data[idx] != NULL) {
-        return -1;
-    }
-
+    /* Always append at the begining of the linked list */
+    disk_new->next = self->disk_data[idx];
     self->disk_data[idx] = disk_new;
 
     return 0;
@@ -119,13 +130,15 @@ int disk_ht_check(disk_ht_t *self, const char *model) {
     int idx = 0;
 
     idx = hash(model, self->table_len);
-    if (self->disk_data[idx] != NULL && strncmp(self->disk_data[idx]->model,
+    disk_data_t *disk_current = self->disk_data[idx];
+    if (disk_current != NULL && strncmp(disk_current->model,
         model, DISK_MODEL_LEN_MAX) == 0) {
         /**
          * If we are checking for a model that is already present in our hash table
          * increment the model_cnt
          */
         self->disk_data[idx]->model_cnt++;
+        disk_current = disk_current->next;
         return 0;
     }
 
