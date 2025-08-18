@@ -1,4 +1,5 @@
 /******************************** INCLUDE FILES *******************************/
+#include <argp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,8 +12,15 @@
 /****************************** LOCAL DEFINES *********************************/
 #define KEY_LEN_MAX 6
 #define READ_BUFFER_LEN 65536
+#define DISK_HT_LEN 20
+#define ARGS_DEFAULT {NULL}
 
+// disk_ht_new(int size);
 /******************************** TYPEDEFS ************************************/
+typedef struct _arguments_t {
+    char *input_file;
+} arguments_t;
+
 typedef struct _ctx_t {
     int in_array;
     int in_object;
@@ -21,11 +29,42 @@ typedef struct _ctx_t {
     char model[DISK_MODEL_LEN_MAX];
 
     uint64_t total_entries;
+    disk_ht_t *disk_ht;
 } ctx_t;
 
 /******************************** LOCAL DATA **********************************/
+static struct argp_option options[] = {
+    { "input", 'i', "FILE", 0, "Input binary file path", 0 },
+    { 0 }
+};
 
 /******************************* LOCAL FUNCTIONS ******************************/
+static error_t parse_option( int key, char *arg, struct argp_state *state ) {
+    arguments_t *arguments = state->input;
+
+    switch (key) {
+        case 'i':
+            arguments->input_file = arg;
+            break;
+
+        case ARGP_KEY_ARG:
+            return ARGP_ERR_UNKNOWN;
+
+        case ARGP_KEY_END:
+            if (!arguments->input_file) {
+                argp_error(state, "You must specify an input file with -i.");
+            }
+            break;
+
+        default:
+            return ARGP_ERR_UNKNOWN;
+    }
+
+    return 0;
+}
+static struct argp argp = {options, parse_option, NULL, NULL, NULL, NULL, NULL};
+
+/*************************** JSON PARSER FUNCTIONS ****************************/
 static void reset_object(ctx_t *c) {
     c->in_object = 0;
     memset(c->key, '\0', KEY_LEN_MAX);
@@ -41,7 +80,7 @@ static int on_string(void *_ctx, const unsigned char *str, size_t len) {
     if (strcmp(c->key, "model") == 0) {
         const char *p = strchr(str, '\"');
         size_t model_len = (size_t)(p - (const char *)str);
-        memcpy(c->model, str, model_len);
+        strncpy(c->model, str, model_len);
         c->model[model_len] = '\0';
     }
 
@@ -50,10 +89,7 @@ static int on_string(void *_ctx, const unsigned char *str, size_t len) {
 
 static int on_map_key(void *_ctx, const unsigned char *key, size_t len) {
     ctx_t *c = (ctx_t *)_ctx;
-    size_t n = 0;
-
-    memcpy(c->key, key, len);
-    c->key[n] = '\0';
+    strncpy(c->key, key, len);
 
     return 1;
 }
@@ -65,7 +101,6 @@ static int on_start_map(void *_ctx) {
         c->in_object = 1;
         memset(c->key, '\0', KEY_LEN_MAX);
         memset(c->model, '\0', DISK_MODEL_LEN_MAX);
-        c->total_entries++;
     }
 
     return 1;
@@ -73,9 +108,15 @@ static int on_start_map(void *_ctx) {
 
 static int on_end_map(void *_ctx) {
     ctx_t *c = (ctx_t *)_ctx;
+    int ret = 0;
+
     if (c->in_object) {
-        /* Emit the record; adjust to your needs (e.g., write to DB). */
-        //printf("Model: %s\n", c->model);
+        /* Add model record to the hash table if not present in it */
+        c->total_entries++;
+        ret = disk_ht_check(c->disk_ht, c->model);
+        if (ret) {
+            disk_ht_insert(c->disk_ht, c->model);
+        }
 
         reset_object(c);
     }
@@ -100,27 +141,29 @@ static int on_end_array(void *_ctx) {
 }
 
 int main(int argc, char **argv) {
-    unsigned char buf[READ_BUFFER_LEN];  /* 64KB buffer */
-
-    if (argc < 2) {
-        //fprintf(stderr, "Usage: %s data.json\n", argv);
-        return 1;
-    }
-
-    const char *path = argv[1];
-    FILE *fp = fopen(path, "rb");
-    if (!fp) {
-        perror("fopen");
-        return 1;
-    }
-
+    arguments_t args = ARGS_DEFAULT;
+    FILE *file = NULL;
+    size_t n = 0;
+    uint8_t buffer[READ_BUFFER_LEN];  /* 64KB buffer */
     ctx_t ctx;
+    yajl_callbacks cbs;
+    yajl_status stat = yajl_status_ok;
+    int ret = 0;
+
+    argp_parse(&argp, argc, argv, 0, 0, &args);
+
+    file = fopen(args.input_file, "rb");
+    if (file == NULL) {
+        fprintf(stderr, "Error: Failed to open file: %s\n", args.input_file);
+        return -1;
+    }
+
     memset(&ctx, 0, sizeof(ctx));
+    memset(&cbs, 0, sizeof(cbs));
+    /* Initialize context */
+    ctx.disk_ht = disk_ht_new(DISK_HT_LEN);
 
     /* Set callbacks */
-    yajl_callbacks cbs;
-    memset(&cbs, 0, sizeof(cbs));
-
     cbs.yajl_string = on_string;
     cbs.yajl_start_map = on_start_map;
     cbs.yajl_map_key = on_map_key;
@@ -129,18 +172,15 @@ int main(int argc, char **argv) {
     cbs.yajl_end_array = on_end_array;
 
     yajl_handle handle = yajl_alloc(&cbs, NULL, (void *)&ctx);
-    if (!handle) {
-        fprintf(stderr, "yajl_alloc failed\n");
-        fclose(fp);
-        return 1;
+    if (handle == NULL) {
+        fprintf(stderr, "Error: yajl_alloc failed!\n");
+        ret = -1;
+        goto exit;
     }
 
-    /* yajl_config(hand, yajl_allow_comments, 1); */
-    size_t rd;
-    yajl_status stat = yajl_status_ok;
-
-    while ((rd = fread(buf, 1, sizeof(buf), fp)) > 0) {
-        stat = yajl_parse(handle, buf, rd);
+    fprintf(stdout, "Info: Processing: %s ...\n", args.input_file);
+    while ((n = fread(buffer, 1, sizeof(buffer), file)) > 0) {
+        stat = yajl_parse(handle, buffer, n);
         if (stat != yajl_status_ok) {
             break;
         }
@@ -148,21 +188,20 @@ int main(int argc, char **argv) {
 
     if (stat == yajl_status_ok) {
         stat = yajl_complete_parse(handle);
-    }
-
-    fprintf(stdout, "Total entries: %ld\n", ctx.total_entries);
-
-    if (stat != yajl_status_ok) {
-        unsigned char *err = yajl_get_error(handle, 1, buf, 0);
-        fprintf(stderr, "Parse error: %s\n", err);
+    } else {
+        unsigned char *err = yajl_get_error(handle, 1, buffer, 0);
+        fprintf(stderr, "Error: Parse error: %s\n", err);
         yajl_free_error(handle, err);
-        yajl_free(handle);
-        fclose(fp);
-        return 1;
+        ret = -1;
     }
 
     yajl_free(handle);
-    fclose(fp);
+    disk_ht_print_data(ctx.disk_ht);
+    fprintf(stdout, "Info: Total entries: %ld\n", ctx.total_entries);
 
-    return 0;
+exit:
+    disk_ht_destroy(&ctx.disk_ht);
+    fclose(file);
+
+    return ret;
 }
