@@ -15,7 +15,6 @@
 #define DISK_HT_LEN 20
 #define ARGS_DEFAULT {NULL}
 
-// disk_ht_new(int size);
 /******************************** TYPEDEFS ************************************/
 typedef struct _arguments_t {
     char *input_file;
@@ -113,10 +112,7 @@ static int on_end_map(void *_ctx) {
     if (c->in_object) {
         /* Add model record to the hash table if not present in it */
         c->total_entries++;
-        ret = disk_ht_check(c->disk_ht, c->model);
-        if (ret) {
-            disk_ht_insert(c->disk_ht, c->model);
-        }
+        disk_ht_insert(c->disk_ht, c->model);
 
         reset_object(c);
     }

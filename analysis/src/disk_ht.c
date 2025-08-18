@@ -118,29 +118,10 @@ void disk_ht_print_data(disk_ht_t *self) {
     }
 }
 
-int disk_ht_insert(disk_ht_t *self, const char *model) {
+disk_ht_ret_t disk_ht_insert(disk_ht_t *self, const char *model) {
     if (model == NULL) {
         fprintf(stderr, "Error: Invalid model\n");
-        return -1;
-    }
-    int idx = 0;
-
-    disk_data_t *disk_new = (disk_data_t *) malloc(sizeof(disk_data_t));
-    strncpy(disk_new->model, model, DISK_MODEL_LEN_MAX);
-    disk_new->model_cnt = 1;
-
-    idx = hash(model, self->table_len);
-    /* Always append at the begining of the linked list */
-    disk_new->next = self->disk_data[idx];
-    self->disk_data[idx] = disk_new;
-
-    return 0;
-}
-
-int disk_ht_check(disk_ht_t *self, const char *model) {
-    if (model == NULL) {
-        fprintf(stderr, "Error: Invalid model\n");
-        return -1;
+        return DISK_HT_EINVAL;
     }
     int idx = 0;
 
@@ -149,14 +130,28 @@ int disk_ht_check(disk_ht_t *self, const char *model) {
     while (disk_current != NULL) {
         if (strncmp(disk_current->model, model, DISK_MODEL_LEN_MAX) == 0) {
             /**
-             * If we are checking for a model that is already present in our hash table
-             * increment the model_cnt
+             * If we are checking for a model that is already present in our
+             * hash table increment the model_cnt
              */
             disk_current->model_cnt++;
-            return 0;
+            return DISK_HT_MEXIST;
         }
         disk_current = disk_current->next;
     }
 
-    return -1;
+    disk_data_t *disk_new = (disk_data_t *) malloc(sizeof(disk_data_t));
+    if (disk_new == NULL)
+    {
+        fprintf(stderr, "Error: Memory allocation failed!\n");
+        return DISK_HT_ENOMEM;
+    }
+
+    strncpy(disk_new->model, model, DISK_MODEL_LEN_MAX);
+    disk_new->model_cnt = 1;
+
+    /* Always append at the begining of the linked list */
+    disk_new->next = self->disk_data[idx];
+    self->disk_data[idx] = disk_new;
+
+    return DISK_HT_SUCESS;
 }
