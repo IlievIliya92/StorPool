@@ -1,4 +1,4 @@
 cmake_minimum_required(VERSION 3.10)
-project(FizBuzz C)
+project(FizzBuzz C)
 
-add_executable(fizbuzz src/main.c)
+add_executable(fizzbuzz src/main.c)
