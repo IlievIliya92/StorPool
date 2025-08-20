@@ -1,6 +1,9 @@
 FROM ubuntu:24.04 AS build
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      build-essential cmake git ca-certificates python3
+      build-essential cmake git ca-certificates python3 python3-pip
+RUN pip3 install sphinx==5.3.0 clang==14 myst-parser sphinx_c_autodoc sphinxcontrib-apidoc \
+      sphinx-rtd-theme sphinx_design sphinx_copybutton pygit2 --break-system-packages
+
 WORKDIR /StorPool
 
 # Improve cache hits by copying metadata first, then the rest
