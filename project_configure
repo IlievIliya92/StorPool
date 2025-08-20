@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source ./scripts/sp_project_addtopath
+source ./scripts/sp_project_env
+
+printf "Utils imported:\n\n"
+printf "sp_project_build - Build the project\n"
+printf "sp_project_test - Run tests\n"

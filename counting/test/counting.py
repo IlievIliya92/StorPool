@@ -4,7 +4,12 @@ import sys
 import subprocess
 
 # --- Constants --- #
-COUNTING_C_BIN_PATH = "./../build/counting"
+PROJECT_ROOT = os.environ.get('STORPOOL_PROJECT_ROOT')
+if PROJECT_ROOT is None:
+    print("Please run the following command from the root directory: source project_configure")
+    sys.exit(1)
+
+COUNTING_C_BIN_PATH = PROJECT_ROOT + "/build/counting/counting"
 
 def generate_12bit_pattern_bytes(pattern, repeat_count):
     if pattern >= (1 << 12) or pattern < 0:
@@ -92,7 +97,7 @@ def main():
 
     if not os.path.isfile(COUNTING_C_BIN_PATH):
         print(f"Missing binary file: {os.path.basename(COUNTING_C_BIN_PATH)}")
-        print("Build the project from the root directory using cmake")
+        print("Build the project from the root directory using sp_project_build")
         return 1
 
     for i, pattern in enumerate(patterns):
@@ -112,18 +117,21 @@ def main():
                     leftover_bits, out, bits)
 
         # Write to file
-        filename = f"test_pattern_{i}.bin"
+        filename = f"counting_test_pattern_{i}.bin"
         with open(filename, "wb") as f:
             f.write(final_bytes)
 
         result = subprocess.run([COUNTING_C_BIN_PATH, '-i', filename],
                 capture_output=True, text=True)
+        print(f"Test pattern: {', '.join(f'0x{x:03X}' for x in test_values)}, repeated: {repeat_cnt}")
+        print(f"C binary {COUNTING_C_BIN_PATH} output:\n{result.stdout}")
         counting_c_bin_result = result.stdout
         if (counting_c_bin_result != expected_output):
             print("Error: Unexpected output")
             print(f"C binary output:\n{counting_c_bin_result}\nExpected output:\n{expected_output}")
-        else:
-            print(f"Test pattern {i}: Passed")
+            return 1
+
+    print("Ok\n")
 
     return 0
 

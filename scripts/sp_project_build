@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd ${STORPOOL_PROJECT_ROOT}
+mkdir build
+cd build
+cmake ..
+make
+
+cd -

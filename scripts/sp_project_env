@@ -1,0 +1,3 @@
+#!/bin/bash
+
+export STORPOOL_PROJECT_ROOT=$(pwd)

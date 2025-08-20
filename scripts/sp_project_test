@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd ${STORPOOL_PROJECT_ROOT}
+
+set -e
+
+printf " --- Running test for analysis\n"
+python3 analysis/test/analysis.py
+printf " --- Running test for counting\n"
+python3 counting/test/counting.py
+printf " --- Running test for fizzbuzz\n"
+python3 fizzbuzz/test/fizzbuzz.py
+
+cd -
