@@ -3,7 +3,6 @@
 
 int main(int argc, char const *argv[])
 {
-    /* code */
     const char *filename = "./pesho";
     char buffer[1024];
 

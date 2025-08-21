@@ -7,4 +7,7 @@ hide-toc: true
 :caption: StorPool Tasks
 :hidden:
 
+counting
+fizzbuzz
+analysis
 ```

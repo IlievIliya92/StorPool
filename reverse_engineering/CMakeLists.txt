@@ -25,16 +25,11 @@ file(ARCHIVE_EXTRACT
      DESTINATION "${OUT_DIR}")
 
 add_executable(a src/a.c)
-add_executable(b src/b.c)
 
 find_program(LLVM_STRIP llvm-strip)
 if(LLVM_STRIP)
     add_custom_command(TARGET a POST_BUILD
         COMMAND ${LLVM_STRIP} $<TARGET_FILE:a>
-        COMMENT "Stripping binary with llvm-strip"
-    )
-    add_custom_command(TARGET b POST_BUILD
-        COMMAND ${LLVM_STRIP} $<TARGET_FILE:b>
         COMMENT "Stripping binary with llvm-strip"
     )
 else()

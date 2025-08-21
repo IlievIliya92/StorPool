@@ -5,12 +5,16 @@
 #define UNUSED(x) (void)(x)
 
 /******************************** TYPEDEFS ************************************/
+
+/**
+ * Print event
+ */
 typedef enum _print_events_t {
-    PRINT_NUMBER = 0,
-    PRINT_A,
-    PRINT_B,
-    PRINT_AB,
-    PRINT_EVENTS,
+    PRINT_NUMBER = 0, /**< Print the number */
+    PRINT_A,  /**< Print A */
+    PRINT_B, /**< Print B */
+    PRINT_AB, /**< Print AB */
+    PRINT_EVENTS, /**< Number of events */
 } print_events_t;
 
 typedef void (*print_handler_t) (int);
@@ -18,25 +22,25 @@ typedef void (*print_handler_t) (int);
 /****************************** PRINT HANDLERS ********************************/
 static void print_number(int number)
 {
-    fprintf(stdout, "%d\n", number);
+    fprintf(stdout, "%d", number);
 }
 
 static void print_a(int number)
 {
     UNUSED(number);
-    fprintf(stdout, "A\n");
+    fprintf(stdout, "A");
 }
 
 static void print_b(int number)
 {
     UNUSED(number);
-    fprintf(stdout, "B\n");
+    fprintf(stdout, "B");
 }
 
 static void print_ab(int number)
 {
     UNUSED(number);
-    fprintf(stdout, "AB\n");
+    fprintf(stdout, "AB");
 }
 
 /******************************** LOCAL DATA **********************************/
@@ -76,6 +80,8 @@ int fizzbuzz(int n, int end) {
 
 int main() {
     fizzbuzz(1, 100);
+
+    fprintf(stdout, "\n");
 
     return 0;
 }

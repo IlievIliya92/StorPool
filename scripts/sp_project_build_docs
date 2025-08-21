@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd ${STORPOOL_PROJECT_ROOT}
+
+pip3 install -r doc/requirements.txt
+
+cd -

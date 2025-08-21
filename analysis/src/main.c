@@ -11,7 +11,7 @@
 
 /****************************** LOCAL DEFINES *********************************/
 #define KEY_LEN_MAX 6
-#define READ_BUFFER_LEN 65536
+#define READ_BUFFER_LEN 65536 /**< Size of a single read*/
 #define DISK_HT_LEN 20
 #define ARGS_DEFAULT {NULL}
 

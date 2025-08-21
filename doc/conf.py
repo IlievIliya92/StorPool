@@ -4,12 +4,13 @@ import clang.cindex as cl
 import pygit2
 
 # -- Path setup --------------------------------------------------------------
-cl.Config.set_library_file('/usr/lib/llvm-14/lib/libclang-14.so')
-cl.Config.set_library_path('/usr/lib/llvm-14/lib/libclang-14.so')
+cl.Config.set_library_file('/usr/lib/llvm-18/lib/libclang-18.so')
+cl.Config.set_library_path('/usr/lib/llvm-18/lib/libclang-18.so')
 
 # -- Project information -----------------------------------------------------
 project = 'StorPool Tasks'
 author = 'Iliya Iliev'
+copyright = 'Iliya Iliev'
 
 # -- Constants ---------------------------------------------------------------
 
@@ -28,8 +29,8 @@ templates_path = ['_templates']
 exclude_patterns = []
 
 # -- API C files -------------------------------------------------------------
-c_autodoc_roots = ['../analysis/src/']
-c_autodoc_compilation_args = ["-I./../analysis/src/"]
+c_autodoc_roots = ['../fizzbuzz/src/', '../analysis/src/']
+c_autodoc_compilation_args = ["-I./../fizzbuzz/src/"]
 
 # -- Options for HTML output -------------------------------------------------
 html_theme = "sphinx_rtd_theme"
@@ -47,7 +48,6 @@ html_theme_options = {
     'navigation_depth': 2,
     'includehidden': True,
     'titles_only': True,
-    'sticky_navigation': True
 }
 
 def include_readme_file(app, docname, source):
@@ -78,3 +78,4 @@ version = pygit2.Repository('.').head.shorthand
 
 html_show_sourcelink = False
 html_title = 'StorPool Tasks'
+html_logo = "https://upload.wikimedia.org/wikipedia/en/thumb/8/88/StorPool_Logo.png/1200px-StorPool_Logo.png"
