@@ -7,7 +7,7 @@ include(FetchContent)
 FetchContent_Declare(
   yajl
   GIT_REPOSITORY https://github.com/lloyd/yajl.git
-  GIT_TAG master
+  GIT_TAG a0ecdde0c042b9256170f2f8890dd9451a4240aa
 )
 FetchContent_MakeAvailable(yajl)
 
@@ -15,5 +15,5 @@ file(GLOB SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
 
 add_executable(analysis ${SOURCES})
 target_include_directories(analysis PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
-target_include_directories(analysis PRIVATE ${CMAKE_BINARY_DIR}/_deps/yajl-build/yajl-2.1.1/include/)
+target_include_directories(analysis PRIVATE ${CMAKE_BINARY_DIR}/_deps/yajl-build/yajl-2.1.0/include/)
 target_link_libraries(analysis PRIVATE yajl)
