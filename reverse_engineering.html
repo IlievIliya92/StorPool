@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reverse Engineering &mdash; StorPool Tasks</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/design-tabs.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Analysis" href="analysis.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: rgba(52,49,49,1) 100%;" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            StorPool Tasks
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/88/StorPool_Logo.png/1200px-StorPool_Logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">StorPool Tasks</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="counting.html">Counting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fizzbuzz.html">FizzBuzz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reverse Engineering</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: rgba(52,49,49,1) 100%;" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">StorPool Tasks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Reverse Engineering</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="reverse-engineering">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">Reverse Engineering</a><a class="headerlink" href="#reverse-engineering" title="Permalink to this heading"></a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#reverse-engineering" id="id1">Reverse Engineering</a></p>
+<ul>
+<li><p><a class="reference internal" href="#task-description" id="id2">Task description</a></p></li>
+<li><p><a class="reference internal" href="#binary-a" id="id3">Binary ./a</a></p></li>
+<li><p><a class="reference internal" href="#binary-b" id="id4">Binary ./b</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="task-description">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Task description</a><a class="headerlink" href="#task-description" title="Permalink to this heading"></a></h2>
+<p>At <a class="reference external" href="https://quiz.storpool.com/binaries.tgz">binaries.tgz</a> there’s an archive with
+two executable binary files that crash in different ways. Can you explain why and
+what are they trying to do</p>
+</section>
+<section id="binary-a">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Binary ./a</a><a class="headerlink" href="#binary-a" title="Permalink to this heading"></a></h2>
+<p>The binary is statically compiled with clang for x86-64 and with striped symbols.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>a:<span class="w"> </span>ELF<span class="w"> </span><span class="m">64</span>-bit<span class="w"> </span>LSB<span class="w"> </span>executable,<span class="w"> </span>x86-64,<span class="w"> </span>version<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>GNU/Linux<span class="o">)</span>,<span class="w"> </span>statically<span class="w"> </span>linked,<span class="w"> </span><span class="k">for</span><span class="w"> </span>GNU/Linux<span class="w"> </span><span class="m">3</span>.2.0,<span class="w"> </span>BuildID<span class="o">[</span>sha1<span class="o">]=</span>f78fa493787cd1a399b33b8c872299feabab709c,<span class="w"> </span>stripped
+</pre></div>
+</div>
+<p>The execution of <code class="docutils literal notranslate"><span class="pre">./a</span></code> is terminated by SIGSEGV signal. Using <a class="reference external" href="https://man7.org/linux/man-pages/man1/strace.1.html">strace</a> to track the sys calls it is visible that the program tries to open a file
+named ‘./pesho’ and read a signle block of data with length of 1024 bytes.</p>
+<p><em>stace output:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">execve</span><span class="p">(</span><span class="s2">&quot;./a&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;./a&quot;</span><span class="p">],</span> <span class="mh">0x7ffd692321d0</span> <span class="o">/*</span> <span class="mi">68</span> <span class="nb">vars</span> <span class="o">*/</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">brk</span><span class="p">(</span><span class="n">NULL</span><span class="p">)</span>                               <span class="o">=</span> <span class="mh">0xcdd000</span>
+<span class="n">brk</span><span class="p">(</span><span class="mh">0xcde1c0</span><span class="p">)</span>                           <span class="o">=</span> <span class="mh">0xcde1c0</span>
+<span class="n">arch_prctl</span><span class="p">(</span><span class="n">ARCH_SET_FS</span><span class="p">,</span> <span class="mh">0xcdd880</span><span class="p">)</span>       <span class="o">=</span> <span class="mi">0</span>
+<span class="n">uname</span><span class="p">({</span><span class="n">sysname</span><span class="o">=</span><span class="s2">&quot;Linux&quot;</span><span class="p">,</span> <span class="n">nodename</span><span class="o">=</span><span class="s2">&quot;iliya-ws&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">})</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">readlink</span><span class="p">(</span><span class="s2">&quot;/proc/self/exe&quot;</span><span class="p">,</span> <span class="s2">&quot;/home/iliya/Work/StorPool/StorPo&quot;</span><span class="o">...</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="n">brk</span><span class="p">(</span><span class="mh">0xcff1c0</span><span class="p">)</span>                           <span class="o">=</span> <span class="mh">0xcff1c0</span>
+<span class="n">brk</span><span class="p">(</span><span class="mh">0xd00000</span><span class="p">)</span>                           <span class="o">=</span> <span class="mh">0xd00000</span>
+<span class="n">access</span><span class="p">(</span><span class="s2">&quot;/etc/ld.so.nohwcap&quot;</span><span class="p">,</span> <span class="n">F_OK</span><span class="p">)</span>      <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="n">ENOENT</span> <span class="p">(</span><span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span><span class="p">)</span>
+<span class="n">openat</span><span class="p">(</span><span class="n">AT_FDCWD</span><span class="p">,</span> <span class="s2">&quot;./pesho&quot;</span><span class="p">,</span> <span class="n">O_RDONLY</span><span class="p">)</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="n">ENOENT</span> <span class="p">(</span><span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span><span class="p">)</span>
+<span class="n">read</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mh">0x7ffd96d7e770</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>          <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="n">EBADF</span> <span class="p">(</span><span class="n">Bad</span> <span class="n">file</span> <span class="n">descriptor</span><span class="p">)</span>
+<span class="n">close</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>                               <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="n">EBADF</span> <span class="p">(</span><span class="n">Bad</span> <span class="n">file</span> <span class="n">descriptor</span><span class="p">)</span>
+<span class="o">---</span> <span class="n">SIGSEGV</span> <span class="p">{</span><span class="n">si_signo</span><span class="o">=</span><span class="n">SIGSEGV</span><span class="p">,</span> <span class="n">si_code</span><span class="o">=</span><span class="n">SEGV_MAPERR</span><span class="p">,</span> <span class="n">si_addr</span><span class="o">=</span><span class="n">NULL</span><span class="p">}</span> <span class="o">---</span>
+<span class="o">+++</span> <span class="n">killed</span> <span class="n">by</span> <span class="n">SIGSEGV</span> <span class="p">(</span><span class="n">core</span> <span class="n">dumped</span><span class="p">)</span> <span class="o">+++</span>
+</pre></div>
+</div>
+<p>Possible C code corresponding to ‘a’:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;fcntl.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;./pesho&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">O_RDONLY</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Missing check for a valid fd</span>
+<span class="cm">     * The &#39;./pesho&#39; file is missing on the file system or the relative path is</span>
+<span class="cm">     * incorrect.</span>
+<span class="cm">     */</span>
+
+<span class="w">    </span><span class="kt">ssize_t</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="w"> </span><span class="n">buffer</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="binary-b">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Binary ./b</a><a class="headerlink" href="#binary-b" title="Permalink to this heading"></a></h2>
+<p>The binary is statically compiled with clang for x86-64 and with striped symbols.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>b:<span class="w"> </span>ELF<span class="w"> </span><span class="m">64</span>-bit<span class="w"> </span>LSB<span class="w"> </span>executable,<span class="w"> </span>x86-64,<span class="w"> </span>version<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>GNU/Linux<span class="o">)</span>,<span class="w"> </span>statically<span class="w"> </span>linked,<span class="w"> </span><span class="k">for</span><span class="w"> </span>GNU/Linux<span class="w"> </span><span class="m">2</span>.6.32,<span class="w"> </span>BuildID<span class="o">[</span>sha1<span class="o">]=</span>cffb08c07ba5e0fcd6c0860760955dab0b8c1707,<span class="w"> </span>stripped
+</pre></div>
+</div>
+<p>The execution of <code class="docutils literal notranslate"><span class="pre">./b</span></code> is terminated by SIGSEGV signal. Using <a class="reference external" href="https://man7.org/linux/man-pages/man1/strace.1.html">strace</a> to track the sys calls we get the following output.</p>
+<p><em>stace output:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">execve</span><span class="p">(</span><span class="s2">&quot;./b&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;./b&quot;</span><span class="p">],</span> <span class="mh">0x7ffe21120bc0</span> <span class="o">/*</span> <span class="mi">68</span> <span class="nb">vars</span> <span class="o">*/</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">uname</span><span class="p">({</span><span class="n">sysname</span><span class="o">=</span><span class="s2">&quot;Linux&quot;</span><span class="p">,</span> <span class="n">nodename</span><span class="o">=</span><span class="s2">&quot;iliya-ws&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">})</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">brk</span><span class="p">(</span><span class="n">NULL</span><span class="p">)</span>                               <span class="o">=</span> <span class="mh">0x249d000</span>
+<span class="n">brk</span><span class="p">(</span><span class="mh">0x249e1c0</span><span class="p">)</span>                          <span class="o">=</span> <span class="mh">0x249e1c0</span>
+<span class="n">arch_prctl</span><span class="p">(</span><span class="n">ARCH_SET_FS</span><span class="p">,</span> <span class="mh">0x249d880</span><span class="p">)</span>      <span class="o">=</span> <span class="mi">0</span>
+<span class="n">readlink</span><span class="p">(</span><span class="s2">&quot;/proc/self/exe&quot;</span><span class="p">,</span> <span class="s2">&quot;/home/iliya/Work/StorPool/StorPo&quot;</span><span class="o">...</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="n">brk</span><span class="p">(</span><span class="mh">0x24bf1c0</span><span class="p">)</span>                          <span class="o">=</span> <span class="mh">0x24bf1c0</span>
+<span class="n">brk</span><span class="p">(</span><span class="mh">0x24c0000</span><span class="p">)</span>                          <span class="o">=</span> <span class="mh">0x24c0000</span>
+<span class="n">access</span><span class="p">(</span><span class="s2">&quot;/etc/ld.so.nohwcap&quot;</span><span class="p">,</span> <span class="n">F_OK</span><span class="p">)</span>      <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="n">ENOENT</span> <span class="p">(</span><span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span><span class="p">)</span>
+<span class="o">---</span> <span class="n">SIGSEGV</span> <span class="p">{</span><span class="n">si_signo</span><span class="o">=</span><span class="n">SIGSEGV</span><span class="p">,</span> <span class="n">si_code</span><span class="o">=</span><span class="n">SEGV_MAPERR</span><span class="p">,</span> <span class="n">si_addr</span><span class="o">=</span><span class="n">NULL</span><span class="p">}</span> <span class="o">---</span>
+</pre></div>
+</div>
+<p>There seems to be an issue with the heap and the dynamic memory allocator.
+The program is terminated before the <code class="docutils literal notranslate"><span class="pre">mprotect</span></code> invocation which finalizes the
+loader’s initialization. The program doesn’t reach the application code at all.</p>
+<p>Possible issue casuing this behaviour would be if the binary is statically linked
+against incompatible C library.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="analysis.html" class="btn btn-neutral float-left" title="Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Iliya Iliev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

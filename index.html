@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StorPool Tasks &mdash; StorPool Tasks</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/design-tabs.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Counting" href="counting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: rgba(52,49,49,1) 100%;" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            StorPool Tasks
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/88/StorPool_Logo.png/1200px-StorPool_Logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">StorPool Tasks</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="counting.html">Counting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fizzbuzz.html">FizzBuzz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reverse_engineering.html">Reverse Engineering</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: rgba(52,49,49,1) 100%;" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">StorPool Tasks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">StorPool Tasks</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="storpool-tasks">
+<h1>StorPool Tasks<a class="headerlink" href="#storpool-tasks" title="Permalink to this heading"></a></h1>
+<section id="repository-layout">
+<h2>Repository layout:<a class="headerlink" href="#repository-layout" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">analysis</span></code>              – Analysis task solution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>        – Root cmake file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">counting</span></code>              – Counting task solution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">doc</span></code>                   – doc directory</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>            – Dockerfile</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fizzbuzz</span></code>              – FizzBuzz task solution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LICENSE</span></code>               – license file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">project_configure</span></code>     – Configuration script</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">README.md</span></code>             – Readme file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reverse_engineering</span></code>   – Reverse engineering task</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scripts</span></code>               – Helper utilities</p></li>
+</ul>
+</section>
+<section id="build">
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this heading"></a></h2>
+<p><strong>Prerequisites</strong></p>
+<ul class="simple">
+<li><p>build-essential</p></li>
+<li><p>cmake</p></li>
+</ul>
+<p>This is a project with a standard <code class="docutils literal notranslate"><span class="pre">cmake</span></code> build system anyway for convinience
+to execute subsequently after the build script utilities have been added.</p>
+<p><strong>Build &amp; Run Tests</strong></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>project_configure
+<span class="gp">$ </span>sp_project_build
+<span class="gp">$ </span>sp_project_test
+</pre></div>
+</div>
+<p>Alternativelly build &amp; run the tests using the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">storpool</span><span class="p">:</span><span class="n">latest</span> <span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="build-artefacts">
+<h2>Build Artefacts<a class="headerlink" href="#build-artefacts" title="Permalink to this heading"></a></h2>
+<p>The build artefacts are stored in the <code class="docutils literal notranslate"><span class="pre">build</span></code> directory under their coresponding names.</p>
+<p><strong>build</strong> directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>build/
+├── analysis
+│    └── analysis
+│
+├── counting
+│    └── counting
+│
+└── fizzbuzz
+     └── fizzbuzz
+</pre></div>
+</div>
+<p>More information regarding the solutions can be found <a class="reference external" href="https://ilieviliya92.github.io/StorPool/">here</a></p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="counting.html" class="btn btn-neutral float-right" title="Counting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Iliya Iliev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>main.c &mdash; StorPool Tasks</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: rgba(52,49,49,1) 100%;" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            StorPool Tasks
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/88/StorPool_Logo.png/1200px-StorPool_Logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">StorPool Tasks</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../counting.html">Counting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fizzbuzz.html">FizzBuzz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../analysis.html">Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reverse_engineering.html">Reverse Engineering</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: rgba(52,49,49,1) 100%;" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">StorPool Tasks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">main.c</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for main.c</h1><div class="highlight"><pre>
+<span></span><span class="cm">/******************************** INCLUDE FILES *******************************/</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<div class="viewcode-block" id="c.UNUSED"><span class="cm">/******************************** LOCAL DEFINES *******************************/</span>
+<span class="cp">#define UNUSED(x) (void)(x)</span></div>
+
+<span class="cm">/******************************** TYPEDEFS ************************************/</span>
+
+<div class="viewcode-block" id="c._print_events_t"><div class="viewcode-block" id="c.print_events_t"><a class="viewcode-back" href="../fizzbuzz.html#c.print_events_t">[docs]</a><span class="cm">/**</span>
+<span class="cm"> * Print event</span>
+<span class="cm"> */</span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">_print_events_t</span><span class="w"> </span><span class="p">{</span>
+<div class="viewcode-block" id="c._print_events_t.PRINT_NUMBER"><div class="viewcode-block" id="c.print_events_t.PRINT_NUMBER"><span class="w">    </span><span class="n">PRINT_NUMBER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="cm">/**&lt; Print the number */</span></div></div>
+<div class="viewcode-block" id="c._print_events_t.PRINT_A"><div class="viewcode-block" id="c.print_events_t.PRINT_A"><span class="w">    </span><span class="n">PRINT_A</span><span class="p">,</span><span class="w">  </span><span class="cm">/**&lt; Print A */</span></div></div>
+<div class="viewcode-block" id="c._print_events_t.PRINT_B"><div class="viewcode-block" id="c.print_events_t.PRINT_B"><span class="w">    </span><span class="n">PRINT_B</span><span class="p">,</span><span class="w"> </span><span class="cm">/**&lt; Print B */</span></div></div>
+<div class="viewcode-block" id="c._print_events_t.PRINT_AB"><div class="viewcode-block" id="c.print_events_t.PRINT_AB"><span class="w">    </span><span class="n">PRINT_AB</span><span class="p">,</span><span class="w"> </span><span class="cm">/**&lt; Print AB */</span></div></div>
+<div class="viewcode-block" id="c._print_events_t.PRINT_EVENTS"><div class="viewcode-block" id="c.print_events_t.PRINT_EVENTS"><span class="w">    </span><span class="n">PRINT_EVENTS</span><span class="p">,</span><span class="w"> </span><span class="cm">/**&lt; Number of events */</span></div></div>
+<span class="p">}</span><span class="w"> </span><span class="n">print_events_t</span><span class="p">;</span></div></div>
+
+<div class="viewcode-block" id="c.print_handler_t"><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">print_handler_t</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">);</span></div>
+
+<div class="viewcode-block" id="c.print_number"><span class="cm">/****************************** PRINT HANDLERS ********************************/</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">print_number</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">number</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="p">);</span>
+<span class="p">}</span></div>
+
+<div class="viewcode-block" id="c.print_a"><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">print_a</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">number</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">UNUSED</span><span class="p">(</span><span class="n">number</span><span class="p">);</span>
+<span class="w">    </span><span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">);</span>
+<span class="p">}</span></div>
+
+<div class="viewcode-block" id="c.print_b"><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">print_b</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">number</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">UNUSED</span><span class="p">(</span><span class="n">number</span><span class="p">);</span>
+<span class="w">    </span><span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="p">);</span>
+<span class="p">}</span></div>
+
+<div class="viewcode-block" id="c.print_ab"><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">print_ab</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">number</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">UNUSED</span><span class="p">(</span><span class="n">number</span><span class="p">);</span>
+<span class="w">    </span><span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;AB&quot;</span><span class="p">);</span>
+<span class="p">}</span></div>
+
+<div class="viewcode-block" id="c.print_handlers"><span class="cm">/******************************** LOCAL DATA **********************************/</span>
+<span class="k">static</span><span class="w"> </span><span class="n">print_handler_t</span><span class="w"> </span><span class="n">print_handlers</span><span class="p">[</span><span class="n">PRINT_EVENTS</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">print_number</span><span class="p">,</span>
+<span class="w">    </span><span class="n">print_a</span><span class="p">,</span>
+<span class="w">    </span><span class="n">print_b</span><span class="p">,</span>
+<span class="w">    </span><span class="n">print_ab</span>
+<span class="p">};</span></div>
+
+<div class="viewcode-block" id="c.fizzbuzz"><span class="cm">/***************************** LOCAL FUNCTIONS ********************************/</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">fizzbuzz</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">end</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">a_print</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mb">0b0</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">b_print</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mb">0b0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">print_events_t</span><span class="w"> </span><span class="n">print_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PRINT_NUMBER</span><span class="p">;</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Encode the print event using 2 bits</span>
+<span class="cm">     * 0b00 - print the number</span>
+<span class="cm">     * 0b01 - print A</span>
+<span class="cm">     * 0b10 - print B</span>
+<span class="cm">     * 0b11 - print AB</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">a_print</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">b_print</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">print_event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_print</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">b_print</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">print_handlers</span><span class="p">[</span><span class="n">print_event</span><span class="p">](</span><span class="n">n</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * The recursion will be running until the first condition becomes false.</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">fizzbuzz</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span></div>
+
+<div class="viewcode-block" id="c.main"><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">fizzbuzz</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Iliya Iliev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

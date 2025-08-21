@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analysis &mdash; StorPool Tasks</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/design-tabs.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reverse Engineering" href="reverse_engineering.html" />
+    <link rel="prev" title="FizzBuzz" href="fizzbuzz.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: rgba(52,49,49,1) 100%;" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            StorPool Tasks
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/88/StorPool_Logo.png/1200px-StorPool_Logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                main
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">StorPool Tasks</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="counting.html">Counting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fizzbuzz.html">FizzBuzz</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reverse_engineering.html">Reverse Engineering</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: rgba(52,49,49,1) 100%;" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">StorPool Tasks</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="analysis">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">Analysis</a><a class="headerlink" href="#analysis" title="Permalink to this heading"></a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#analysis" id="id1">Analysis</a></p>
+<ul>
+<li><p><a class="reference internal" href="#task-description" id="id2">Task description</a></p></li>
+<li><p><a class="reference internal" href="#implementation" id="id3">Implementation</a></p></li>
+<li><p><a class="reference internal" href="#tests" id="id4">Tests</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="task-description">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Task description</a><a class="headerlink" href="#task-description" title="Permalink to this heading"></a></h2>
+<p>At <a class="reference external" href="https://quiz.storpool.com/bigf.json.bz2">bigf.json.bz2</a> there is a compressed
+JSON file. In it are described disks with their model and serial number. Count
+how many models there are and how many times each one is present.</p>
+</section>
+<section id="implementation">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Implementation</a><a class="headerlink" href="#implementation" title="Permalink to this heading"></a></h2>
+<p>The program uses the <a class="reference external" href="https://github.com/lloyd/yajl">yajl</a> C library to process
+the input JSON file. This library has been choosen due to its ability to process
+incrementally JSON data off a stream.</p>
+<p>The file is read on chunks of 65536 bytes. Each JSON dictionary:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;model&quot;</span><span class="p">:</span><span class="s2">&quot;XXXX&quot;</span><span class="p">,</span><span class="s2">&quot;serial&quot;</span><span class="p">:</span><span class="s2">&quot;XXXX&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>is processed separately and the <code class="docutils literal notranslate"><span class="pre">model</span></code> data is extracted and stored into a hash
+table.</p>
+<p>The model string is stored into the hash table using the <code class="docutils literal notranslate"><span class="pre">disk_ht_insert</span></code> function.</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.disk_ht_insert">
+<span class="n"><span class="pre">disk_ht_ret_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">disk_ht_insert</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">disk_ht_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">self</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">model</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.disk_ht_insert" title="Permalink to this definition"></a><br /><a class="reference internal" href="_modules/disk_ht.h.html#c.disk_ht_insert"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Store disk model into the hash table. If the model is already present in the hash table the model_cnt value is incremented for the corespondent model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Reference to disk_ht_t object</p></li>
+<li><p><strong>model</strong> – Model string</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DISK_HT_SUCESS for successful insertion, DISK_HT_MEXIST if the model is already present, DISK_HT_EINVAL for invalid argument, DISK_HT_ENOMEM memory allocation failiure.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The hash table is with constant size of <code class="docutils literal notranslate"><span class="pre">DISK_HT_LEN</span> <span class="pre">20</span></code> items. Collisions are resolved
+by external chaining overlaping hash ids to a linked list on the same index.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The program is constrained by the buffer used for storing the model string which
+is set to 1000 bytes by the <code class="docutils literal notranslate"><span class="pre">DISK_MODEL_LEN_MAX</span></code> define.</p>
+</div>
+</section>
+<section id="tests">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Tests</a><a class="headerlink" href="#tests" title="Permalink to this heading"></a></h2>
+<p>The test <em>analysis/test/analysis.py</em> processes the data stored in <code class="docutils literal notranslate"><span class="pre">data_sample.json</span></code>
+and compares it with the output of the binary <code class="docutils literal notranslate"><span class="pre">analysis</span></code>.</p>
+<p><strong>Test output</strong></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">C binary /home/iliya/Work/StorPool/StorPool/build/analysis/analysis output:</span>
+<span class="go">Info: Processing: /home/iliya/Work/StorPool/StorPool/analysis/test/data_sample.json ...</span>
+<span class="go">Info: Disk data</span>
+<span class="go">     HGST2048T: 7</span>
+<span class="go">     SSDLP2: 5</span>
+<span class="go">     broken: 13</span>
+<span class="go">     HGST3T: 3</span>
+<span class="go">     DRV1: 12</span>
+<span class="go">     RDV2: 7</span>
+<span class="go">     HGST8T: 13</span>
+<span class="go">     SSDF1: 10</span>
+<span class="go">     SCSI3HD: 6</span>
+<span class="go">     DSD07461: 10</span>
+<span class="go">     123456789: 8</span>
+<span class="go">     SSDDC1: 6</span>
+<span class="go">Info: Total entries: 100</span>
+
+<span class="go">Ok</span>
+</pre></div>
+</div>
+<p>Output for <code class="docutils literal notranslate"><span class="pre">bigf.json</span></code></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>analysis<span class="w"> </span>-i<span class="w"> </span>~/Downloads/bigf.json
+<span class="go">Info: Processing: /home/iliya/Downloads/bigf.json ...</span>
+<span class="go">Info: Disk data</span>
+<span class="go">      HGST2048T: 33332531</span>
+<span class="go">      SSDLP2: 33345174</span>
+<span class="go">      broken: 33328584</span>
+<span class="go">      HGST3T: 33337292</span>
+<span class="go">      DRV1: 33338513</span>
+<span class="go">      RDV2: 33332954</span>
+<span class="go">      MODEL: 1</span>
+<span class="go">      HGST8T: 33337967</span>
+<span class="go">      SSDF1: 33328579</span>
+<span class="go">      SCSI3HD: 33329611</span>
+<span class="go">      DSD07461: 33333959</span>
+<span class="go">      123456789: 33327094</span>
+<span class="go">      SSDDC1: 33327742</span>
+<span class="go">Info: Total entries: 400000001</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fizzbuzz.html" class="btn btn-neutral float-left" title="FizzBuzz" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reverse_engineering.html" class="btn btn-neutral float-right" title="Reverse Engineering" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Iliya Iliev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
