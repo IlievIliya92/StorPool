@@ -66,3 +66,25 @@ Info: Total entries: 100
 
 Ok
 ```
+
+Output for `bigf.json`
+
+```console
+$ analysis -i ~/Downloads/bigf.json
+Info: Processing: /home/iliya/Downloads/bigf.json ...
+Info: Disk data
+      HGST2048T: 33332531
+      SSDLP2: 33345174
+      broken: 33328584
+      HGST3T: 33337292
+      DRV1: 33338513
+      RDV2: 33332954
+      MODEL: 1
+      HGST8T: 33337967
+      SSDF1: 33328579
+      SCSI3HD: 33329611
+      DSD07461: 33333959
+      123456789: 33327094
+      SSDDC1: 33327742
+Info: Total entries: 400000001
+```
