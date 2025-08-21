@@ -26,3 +26,9 @@ jobs:
       run: |
         source project_configure
         sp_project_build
+
+    - name: Test
+      working-directory: ${{github.workspace}}
+      run: |
+        source project_configure
+        sp_project_test
