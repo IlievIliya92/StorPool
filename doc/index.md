@@ -10,4 +10,5 @@ hide-toc: true
 counting
 fizzbuzz
 analysis
+reverse_engineering
 ```

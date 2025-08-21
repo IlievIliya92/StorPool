@@ -3,7 +3,7 @@ project(esp32_zephyr_docs)
 
 set(SPHINX_EXECUTABLE sphinx-build)
 set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/)
-set(SPHINX_BUILD ${CMAKE_CURRENT_BINARY_DIR}/html)
+set(SPHINX_BUILD ${CMAKE_CURRENT_SOURCE_DIR}/../docs_html)
 set(SPHINX_INDEX_FILE ${SPHINX_BUILD}/index.html)
 
 file(GLOB DOCS_FILES

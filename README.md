@@ -32,6 +32,12 @@ $ sp_project_build
 $ sp_project_test
 ```
 
+Alternativelly build & run the tests using the command:
+
+```
+docker build -t storpool:latest .
+```
+
 ## Build Artefacts
 
 The build artefacts are stored in the `build` directory under their coresponding names.
@@ -50,3 +56,4 @@ build/
      └── fizzbuzz
 ```
 
+More information regarding the solutions can be found in `docs_html/index.html`

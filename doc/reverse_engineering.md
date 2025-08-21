@@ -94,11 +94,8 @@ access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
 ```
 
 There seems to be an issue with the heap and the dynamic memory allocator.
-The program doesn't reach the application code since there are no further sys calls
-made after:
+The program is terminated before the `mprotect` invocation which finalizes the
+loader's initialization. The program doesn't reach the application code at all.
 
-```
-access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
-```
-
-Statically linked against incompatible C library
+Possible issue casuing this behaviour would be if the binary is statically linked
+against incompatible C library.
