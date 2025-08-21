@@ -56,4 +56,4 @@ build/
      └── fizzbuzz
 ```
 
-More information regarding the solutions can be found in `docs_html/index.html`
+More information regarding the solutions can be found [here](https://ilieviliya92.github.io/StorPool/)
